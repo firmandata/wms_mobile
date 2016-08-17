@@ -1,9 +1,11 @@
 package com.erp.wms.custom.inventory_inbound.view;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.erp.helper.utils.DateTimeUtil;
@@ -28,6 +30,9 @@ public class ViewView extends ScrollView {
     private TextView mTvCondition;
     private TextView mTvPackedDate;
     private TextView mTvExpiredDate;
+    private TextView mTvVolumeLength;
+    private TextView mTvVolumeWidth;
+    private TextView mTvVolumeHeight;
     private TextView mTvCreatedDate;
 
     public ViewView(Context context) {
@@ -136,6 +141,48 @@ public class ViewView extends ScrollView {
             mTvLotNo.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             scrollViewContainer.addView(mTvLotNo);
 
+            TextView lblVolume = new TextView(mContext);
+            lblVolume.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            lblVolume.setText("Volume");
+            lblVolume.setPadding(0, (int) context.getResources().getDimension(R.dimen.layout_form_field_padding_top), 0, 0);
+            scrollViewContainer.addView(lblVolume);
+
+            LinearLayout containerVolume = new LinearLayout(mContext);
+            containerVolume.setOrientation(LinearLayout.HORIZONTAL);
+
+                TextView lblVolumeLength = new TextView(mContext);
+                lblVolumeLength.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                lblVolumeLength.setText("L :");
+                lblVolumeLength.setPadding(0, 0, (int) context.getResources().getDimension(R.dimen.layout_form_field_padding_top), 0);
+                containerVolume.addView(lblVolumeLength);
+
+                mTvVolumeLength = new TextView(mContext);
+                mTvVolumeLength.setLayoutParams(new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+                containerVolume.addView(mTvVolumeLength);
+
+                TextView lblVolumeWidth = new TextView(mContext);
+                lblVolumeWidth.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                lblVolumeWidth.setText("W :");
+                lblVolumeWidth.setPadding(0, 0, (int) context.getResources().getDimension(R.dimen.layout_form_field_padding_top), 0);
+                containerVolume.addView(lblVolumeWidth);
+
+                mTvVolumeWidth = new TextView(mContext);
+                mTvVolumeWidth.setLayoutParams(new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+                containerVolume.addView(mTvVolumeWidth);
+
+                TextView lblVolumeHeight = new TextView(mContext);
+                lblVolumeHeight.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                lblVolumeHeight.setText("H :");
+                lblVolumeHeight.setPadding(0, 0, (int) context.getResources().getDimension(R.dimen.layout_form_field_padding_top), 0);
+                containerVolume.addView(lblVolumeHeight);
+
+                mTvVolumeHeight = new TextView(mContext);
+                mTvVolumeHeight.setLayoutParams(new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+                containerVolume.addView(mTvVolumeHeight);
+
+            containerVolume.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            scrollViewContainer.addView(containerVolume);
+
             TextView lblCondition = new TextView(mContext);
             lblCondition.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             lblCondition.setText("Condition");
@@ -199,6 +246,16 @@ public class ViewView extends ScrollView {
         mTvCondition.setText(mData.getCondition());
         mTvPackedDate.setText(DateTimeUtil.ToDateDisplayString(mData.getPackedDate()));
         mTvExpiredDate.setText(DateTimeUtil.ToDateDisplayString(mData.getExpiredDate()));
+
+        String volumeLength = String.valueOf(mData.getVolumeLength()) + "m";
+        mTvVolumeLength.setText(volumeLength);
+
+        String volumeWidth = String.valueOf(mData.getVolumeWidth()) + "m";
+        mTvVolumeWidth.setText(volumeWidth);
+
+        String volumeHeight = String.valueOf(mData.getVolumeHeight()) + "m";
+        mTvVolumeHeight.setText(volumeHeight);
+
         mTvCreatedDate.setText(DateTimeUtil.ToDateDisplayString(mData.getCreatedDate()));
     }
 

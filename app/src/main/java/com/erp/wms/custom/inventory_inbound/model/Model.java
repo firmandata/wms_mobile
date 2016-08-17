@@ -23,6 +23,9 @@ public class Model implements MyListIModel {
     private String mCartonNo;
     private double mQuantity;
     private String mLotNo;
+    private double mVolumeLength;
+    private double mVolumeWidth;
+    private double mVolumeHeight;
     private String mCondition;
     private Calendar mPackedDate;
     private Calendar mExpiredDate;
@@ -126,6 +129,30 @@ public class Model implements MyListIModel {
 
     public String getLotNo() {
         return mLotNo;
+    }
+
+    public void setVolumeLength(double volumeLength) {
+        mVolumeLength = volumeLength;
+    }
+
+    public double getVolumeLength() {
+        return mVolumeLength;
+    }
+
+    public void setVolumeWidth(double volumeWidth) {
+        mVolumeWidth = volumeWidth;
+    }
+
+    public double getVolumeWidth() {
+        return mVolumeWidth;
+    }
+
+    public void setVolumeHeight(double volumeHeight) {
+        mVolumeHeight = volumeHeight;
+    }
+
+    public double getVolumeHeight() {
+        return mVolumeHeight;
     }
 
     public void setCondition(String condition) {

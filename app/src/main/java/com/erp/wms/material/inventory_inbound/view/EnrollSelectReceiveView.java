@@ -124,8 +124,10 @@ public class EnrollSelectReceiveView extends MyListRecord {
     }
 
     protected TextView firstRowSecondCol() {
+        String quantityText = mData.getBox() + "\n" + mData.getQuantity();
+
         TextView tvSelf = new TextView(mContext);
-        tvSelf.setText(mData.getBox() + "\n" + mData.getQuantity());
+        tvSelf.setText(quantityText);
         tvSelf.setTypeface(null, Typeface.BOLD);
 
         Drawable drawableBorder = mContext.getResources().getDrawable(R.drawable.mylist_quantity_border);
@@ -139,8 +141,13 @@ public class EnrollSelectReceiveView extends MyListRecord {
     }
 
     protected TextView secondRow() {
+        String productDescription = mData.getProductName() + " "
+                + "(L:" + String.valueOf(mData.getProductVolumeLength()) + "m"
+                + ", W:" + String.valueOf(mData.getProductVolumeWidth()) + "m"
+                + ", H:" + String.valueOf(mData.getProductVolumeHeight()) + "m)";
+
         TextView tvSelf = new TextView(mContext);
-        tvSelf.setText(mData.getProductName());
+        tvSelf.setText(productDescription);
         return tvSelf;
     }
 

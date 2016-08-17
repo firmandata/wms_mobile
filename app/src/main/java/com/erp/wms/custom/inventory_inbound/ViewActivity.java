@@ -100,6 +100,12 @@ public class ViewActivity extends SherlockActivity {
 							record.setPackedDate(DateTimeUtil.FromDateString(jrecord.getString("packed_date")));
 						if (!jrecord.isNull("expired_date"))
 							record.setExpiredDate(DateTimeUtil.FromDateString(jrecord.getString("expired_date")));
+                        if (!jrecord.isNull("volume_length"))
+                            record.setVolumeLength(jrecord.getDouble("volume_length"));
+                        if (!jrecord.isNull("volume_width"))
+                            record.setVolumeWidth(jrecord.getDouble("volume_width"));
+                        if (!jrecord.isNull("volume_height"))
+                            record.setVolumeHeight(jrecord.getDouble("volume_height"));
                         if (!jrecord.isNull("created"))
                             record.setCreatedDate(DateTimeUtil.FromDateString(jrecord.getString("created")));
 

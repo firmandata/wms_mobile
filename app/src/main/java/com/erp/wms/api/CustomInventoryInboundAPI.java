@@ -57,6 +57,9 @@ public final class CustomInventoryInboundAPI {
 		requestParam.add("quantity", String.valueOf(model.getQuantity()));
 		requestParam.add("carton_no", model.getCartonNo());
 		requestParam.add("lot_no", model.getLotNo());
+        requestParam.add("volume_length", String.valueOf(model.getVolumeLength()));
+        requestParam.add("volume_width", String.valueOf(model.getVolumeWidth()));
+        requestParam.add("volume_height", String.valueOf(model.getVolumeHeight()));
 		requestParam.add("condition", model.getCondition());
 		requestParam.add("packed_date", DateTimeUtil.ToDateString(model.getPackedDate()));
         requestParam.add("expired_date", DateTimeUtil.ToDateString(model.getExpiredDate()));

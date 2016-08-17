@@ -57,15 +57,25 @@ public class MainListView extends MyListRecord {
 
         // -- Second Row --
         TextView secondRow = secondRow();
+        secondRow.setId(GeneratorUtil.generateViewId());
         secondRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         RelativeLayout.LayoutParams secondRowLayout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         secondRowLayout.addRule(RelativeLayout.BELOW, firstRowFirstCol.getId());
         secondRow.setLayoutParams(secondRowLayout);
 
+        // -- Third Row --
+        TextView thirdRow = thirdRow();
+        thirdRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        RelativeLayout.LayoutParams thirdRowLayout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        thirdRowLayout.addRule(RelativeLayout.BELOW, secondRow.getId());
+        thirdRow.setLayoutParams(thirdRowLayout);
+
         rlSelf.addView(firstRowFirstCol);
         rlSelf.addView(firstRowSecondCol);
         rlSelf.addView(secondRow);
+        rlSelf.addView(thirdRow);
 
         return rlSelf;
     }
@@ -120,8 +130,23 @@ public class MainListView extends MyListRecord {
     }
 
     protected TextView secondRow() {
+        String productDescription = mData.getProductCode()
+                + " - " + mData.getProductName();
+
         TextView tvSelf = new TextView(mContext);
-        tvSelf.setText(mData.getProductCode() + " - " + mData.getProductName());
+        tvSelf.setText(productDescription);
+
+        return tvSelf;
+    }
+
+    protected TextView thirdRow() {
+        String volume = "L : " + String.valueOf(mData.getVolumeLength()) + "m"
+                + ", W : " + String.valueOf(mData.getVolumeWidth()) + "m"
+                + ", H : " + String.valueOf(mData.getVolumeHeight()) + "m";
+
+        TextView tvSelf = new TextView(mContext);
+        tvSelf.setText(volume);
+
         return tvSelf;
     }
 

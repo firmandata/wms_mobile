@@ -148,6 +148,14 @@ public class MainActivity extends SherlockActivity {
 							recordData.setPackedDate(DateTimeUtil.FromDateString(record.getString("packed_date")));
 						if (!record.isNull("expired_date"))
 							recordData.setExpiredDate(DateTimeUtil.FromDateString(record.getString("expired_date")));
+
+                        if (!record.isNull("volume_length"))
+                            recordData.setVolumeLength(record.getDouble("volume_length"));
+                        if (!record.isNull("volume_width"))
+                            recordData.setVolumeWidth(record.getDouble("volume_width"));
+                        if (!record.isNull("volume_height"))
+                            recordData.setVolumeHeight(record.getDouble("volume_height"));
+
                         if (!record.isNull("created"))
                             recordData.setCreatedDate(DateTimeUtil.FromDateString(record.getString("created")));
 

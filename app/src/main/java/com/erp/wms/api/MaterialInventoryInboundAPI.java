@@ -101,6 +101,9 @@ public final class MaterialInventoryInboundAPI {
         requestParam.add("quantity_box", String.valueOf(detailModel.getQuantityBox()));
         requestParam.add("carton_no", detailModel.getCartonNo());
         requestParam.add("lot_no", detailModel.getLotNo());
+        requestParam.add("volume_length", String.valueOf(detailModel.getVolumeLength()));
+        requestParam.add("volume_width", String.valueOf(detailModel.getVolumeWidth()));
+        requestParam.add("volume_height", String.valueOf(detailModel.getVolumeHeight()));
         requestParam.add("condition", detailModel.getCondition());
         requestParam.add("packed_date", DateTimeUtil.ToDateString(detailModel.getPackedDate()));
         requestParam.add("expired_date", DateTimeUtil.ToDateString(detailModel.getExpiredDate()));

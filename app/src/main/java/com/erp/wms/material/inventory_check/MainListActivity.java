@@ -227,6 +227,13 @@ public class MainListActivity extends SherlockActivity implements ActionBar.TabL
                         if (!record.isNull("lot_no"))
                             recordData.setLotNo(record.getString("lot_no"));
 
+                        if (!record.isNull("volume_length"))
+                            recordData.setVolumeLength(record.getDouble("volume_length"));
+                        if (!record.isNull("volume_width"))
+                            recordData.setVolumeWidth(record.getDouble("volume_width"));
+                        if (!record.isNull("volume_height"))
+                            recordData.setVolumeHeight(record.getDouble("volume_height"));
+
                         if (!record.isNull("c_project_id"))
                             recordData.setProjectId(record.getInt("c_project_id"));
                         if (!record.isNull("c_project_name"))

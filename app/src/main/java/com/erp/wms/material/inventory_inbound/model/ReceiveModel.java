@@ -20,6 +20,9 @@ public class ReceiveModel implements MyListIModel {
     private String mProductCode;
     private String mProductName;
     private String mProductUom;
+    private double mProductVolumeLength;
+    private double mProductVolumeWidth;
+    private double mProductVolumeHeight;
 
     private long mOrderInId;
     private String mOrderInCode;
@@ -121,6 +124,30 @@ public class ReceiveModel implements MyListIModel {
 
     public String getProductUom() {
         return mProductUom;
+    }
+
+    public void setProductVolumeLength(double productVolumeLength) {
+        mProductVolumeLength = productVolumeLength;
+    }
+
+    public double getProductVolumeLength() {
+        return mProductVolumeLength;
+    }
+
+    public void setProductVolumeWidth(double productVolumeWidth) {
+        mProductVolumeWidth = productVolumeWidth;
+    }
+
+    public double getProductVolumeWidth() {
+        return mProductVolumeWidth;
+    }
+
+    public void setProductVolumeHeight(double productVolumeHeight) {
+        mProductVolumeHeight = productVolumeHeight;
+    }
+
+    public double getProductVolumeHeight() {
+        return mProductVolumeHeight;
     }
 
     public void setOrderInId(long orderInId) {

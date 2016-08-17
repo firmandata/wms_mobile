@@ -51,6 +51,7 @@ public class EnrollActivity extends SherlockActivity implements ActionBar.TabLis
     private boolean mIsSelectReceiveViewLoaded;
 
     private EnrollSetSpecificView mSetSpecificView;
+    private ReceiveModel mCacheReceiveModel;
 
     private ActionBar.Tab mTabReceive;
     private ActionBar.Tab mTabSpecific;
@@ -138,7 +139,9 @@ public class EnrollActivity extends SherlockActivity implements ActionBar.TabLis
                 EnrollSelectReceiveView enrollSelectReceiveView = mSelectReceiveView.getRecordByPosition(position);
                 if (enrollSelectReceiveView != null) {
                     ReceiveModel receiveModel = enrollSelectReceiveView.getData();
-                    mSetSpecificView.setProductInfo(receiveModel.getProductCode(), receiveModel.getProductName());
+                    if (receiveModel != null)
+                        mSetSpecificView.setProductInfo(receiveModel);
+                    mCacheReceiveModel = receiveModel;
                 }
             }
         });
@@ -196,6 +199,12 @@ public class EnrollActivity extends SherlockActivity implements ActionBar.TabLis
                             recordData.setProductName(record.getString("m_product_name"));
                         if (!record.isNull("m_product_uom"))
                             recordData.setProductUom(record.getString("m_product_uom"));
+                        if (!record.isNull("m_product_volume_length"))
+                            recordData.setProductVolumeLength(record.getDouble("m_product_volume_length"));
+                        if (!record.isNull("m_product_volume_width"))
+                            recordData.setProductVolumeWidth(record.getDouble("m_product_volume_width"));
+                        if (!record.isNull("m_product_volume_height"))
+                            recordData.setProductVolumeHeight(record.getDouble("m_product_volume_height"));
 
                         if (!record.isNull("quantity_box"))
                             recordData.setBox(record.getInt("quantity_box"));
@@ -396,6 +405,8 @@ public class EnrollActivity extends SherlockActivity implements ActionBar.TabLis
                         mActivityResultCode = RESULT_OK;
                         mSetSpecificView.clearData();
                         mSetSpecificView.setPalletCounter(counter);
+                        if (mCacheReceiveModel != null)
+                            mSetSpecificView.setProductInfo(mCacheReceiveModel);
                         mSetSpecificView.setFocusAtFirst();
                     }
                 } catch (JSONException e) {

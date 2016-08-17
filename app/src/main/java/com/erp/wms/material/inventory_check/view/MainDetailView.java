@@ -54,6 +54,10 @@ public class MainDetailView extends MyListRecord {
         thirdRow.setId(GeneratorUtil.generateViewId());
         thirdRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        TextView fourthRow = fourthRow();
+        fourthRow.setId(GeneratorUtil.generateViewId());
+        fourthRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
         RelativeLayout.LayoutParams firstRowFirstColLayout = new RelativeLayout.LayoutParams(0, RelativeLayout.LayoutParams.WRAP_CONTENT);
         firstRowFirstColLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         firstRowFirstColLayout.addRule(RelativeLayout.LEFT_OF, firstRowSecondCol.getId());
@@ -71,10 +75,15 @@ public class MainDetailView extends MyListRecord {
         thirdRowLayout.addRule(RelativeLayout.BELOW, secondRow.getId());
         thirdRow.setLayoutParams(thirdRowLayout);
 
+        RelativeLayout.LayoutParams fourthRowLayout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        fourthRowLayout.addRule(RelativeLayout.BELOW, thirdRow.getId());
+        fourthRow.setLayoutParams(fourthRowLayout);
+
         rlSelf.addView(firstRowFirstCol);
         rlSelf.addView(firstRowSecondCol);
         rlSelf.addView(secondRow);
         rlSelf.addView(thirdRow);
+        rlSelf.addView(fourthRow);
 
         return rlSelf;
     }
@@ -124,8 +133,22 @@ public class MainDetailView extends MyListRecord {
     }
 
     protected TextView thirdRow() {
+        String thirdRowDescription = "Pack." + DateTimeUtil.ToDateDisplayString(mData.getPackedDate())
+                + " Exp." + DateTimeUtil.ToDateDisplayString(mData.getExpiredDate());
+
         TextView tvSelf = new TextView(mContext);
-        tvSelf.setText("Pack." + DateTimeUtil.ToDateDisplayString(mData.getPackedDate()) + " Exp." + DateTimeUtil.ToDateDisplayString(mData.getExpiredDate()));
+        tvSelf.setText(thirdRowDescription);
+        tvSelf.setSingleLine();
+        return tvSelf;
+    }
+
+    protected TextView fourthRow() {
+        String fourthRowDescription = " Vol.(L:" + String.valueOf(mData.getVolumeLength()) + "m"
+                + ",W:" + String.valueOf(mData.getVolumeWidth()) + "m"
+                + ",H:" + String.valueOf(mData.getVolumeHeight()) + "m)";
+
+        TextView tvSelf = new TextView(mContext);
+        tvSelf.setText(fourthRowDescription);
         tvSelf.setSingleLine();
         return tvSelf;
     }

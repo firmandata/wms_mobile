@@ -77,21 +77,30 @@ public class ViewDetailView extends MyListRecord {
         tlSelf.addView(tvBarcode);
 
         // -- Second Line
+        String palletCartonNoDescription = "Plt." + mData.getPallet() + " Ctn." + mData.getCartonNo();
         TextView tvPalletCartonNo = new TextView(mContext);
-        tvPalletCartonNo.setText("Plt." + mData.getPallet() + " Ctn." + mData.getCartonNo());
+        tvPalletCartonNo.setText(palletCartonNoDescription);
         tlSelf.addView(tvPalletCartonNo);
 
         // -- Third Line
+        String productDescription = mData.getProductCode() + "(" + mData.getProductUom() + ")"
+                + " (L : " + String.valueOf(mData.getVolumeLength()) + "m"
+                + ", W : " + String.valueOf(mData.getVolumeWidth()) + "m"
+                + ", H : " + String.valueOf(mData.getVolumeHeight()) + "m)";
+
         TextView tvProductCodeProductUom = new TextView(mContext);
-        tvProductCodeProductUom.setText(mData.getProductCode() + "(" + mData.getProductUom() + ")");
+        tvProductCodeProductUom.setText(productDescription);
         tlSelf.addView(tvProductCodeProductUom);
 
         return tlSelf;
     }
 
     protected TextView firstRowSecondCol() {
+        String quantityDescription = mData.getQuantityBox()
+                + "\n" + mData.getQuantity();
+
         TextView tvSelf = new TextView(mContext);
-        tvSelf.setText(mData.getQuantityBox() + "\n" + mData.getQuantity());
+        tvSelf.setText(quantityDescription);
         tvSelf.setTypeface(null, Typeface.BOLD);
 
         Drawable drawableBorder = mContext.getResources().getDrawable(R.drawable.mylist_quantity_border);

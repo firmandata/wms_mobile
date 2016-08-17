@@ -1,7 +1,9 @@
 package com.erp.wms.custom.inventory_inbound.view;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +14,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.erp.helper.restful.RestfulResponse;
 import com.erp.helper.utils.DrawableUtil;
+import com.erp.helper.utils.SizeUtil;
 import com.erp.helper.widget.DataPickerView;
 import com.erp.wms.R;
 import com.erp.wms.api.CustomInventoryInboundAPI;
@@ -29,6 +33,7 @@ public class EnrollView extends ScrollView {
     private Context mContext;
 
     private TextView mLblProductName;
+    private TextView mLblProductVolume;
 
     private EditText mEtProductCode;
     private EditText mEtBarcode;
@@ -39,7 +44,13 @@ public class EnrollView extends ScrollView {
     private DataPickerView mDpPackedDate;
     private DataPickerView mDpExpiredDate;
     private EditText mEtLotNo;
+    private EditText mEtVolumeLength;
+    private EditText mEtVolumeWidth;
+    private EditText mEtVolumeHeight;
     private Spinner mSpCondition;
+
+    private String mCacheProductCode;
+    private String mCacheBarcode;
 
     private View mBarcodeRequestView;
     private RequestBarcodeListener mBarcodeRequestListener;
@@ -49,6 +60,9 @@ public class EnrollView extends ScrollView {
     public EnrollView(Context context) {
         super(context);
         mContext = context;
+
+        mCacheProductCode = "";
+        mCacheBarcode = "";
 
         this.setScrollBarStyle(ScrollView.SCROLLBARS_OUTSIDE_OVERLAY);
         this.setClipToPadding(false);
@@ -83,8 +97,16 @@ public class EnrollView extends ScrollView {
                         mBarcodeRequestListener.onAfterRequestBarcode(mEtProductCode);
                     }
                     if (!hasFocus) {
-                        productProperties(mEtProductCode.getText().toString());
-                        parseBarcode(mEtProductCode.getText().toString(), mEtBarcode.getText().toString());
+                        String productCode = mEtProductCode.getText().toString();
+                        String barcode = mEtBarcode.getText().toString();
+
+                        if (!productCode.equals(mCacheProductCode))
+                            productProperties(productCode);
+
+                        if (!barcode.equals(mCacheBarcode))
+                            parseBarcode(productCode, barcode);
+
+                        mCacheProductCode = productCode;
                     }
                 }
             });
@@ -93,6 +115,10 @@ public class EnrollView extends ScrollView {
             mLblProductName = new TextView(mContext);
             mLblProductName.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             scrollViewContainer.addView(mLblProductName);
+
+            mLblProductVolume = new TextView(mContext);
+            mLblProductVolume.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            scrollViewContainer.addView(mLblProductVolume);
 
             TextView lblBarcode = new TextView(mContext);
             lblBarcode.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -115,7 +141,12 @@ public class EnrollView extends ScrollView {
                         mBarcodeRequestListener.onAfterRequestBarcode(mEtBarcode);
                     }
                     if (!hasFocus) {
-                        parseBarcode(mEtProductCode.getText().toString(), mEtBarcode.getText().toString());
+                        String barcode = mEtBarcode.getText().toString();
+
+                        if (!barcode.equals(mCacheBarcode))
+                            parseBarcode(mEtProductCode.getText().toString(), barcode);
+
+                        mCacheBarcode = barcode;
                     }
                 }
             });
@@ -263,6 +294,89 @@ public class EnrollView extends ScrollView {
             });
             scrollViewContainer.addView(mEtLotNo);
 
+            TextView lblVolume = new TextView(mContext);
+            lblVolume.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            lblVolume.setText("Volume (meter)");
+            lblVolume.setPadding(0, (int) context.getResources().getDimension(R.dimen.layout_form_field_padding_top), 0, 0);
+            scrollViewContainer.addView(lblVolume);
+
+            LinearLayout containerVolume = new LinearLayout(mContext);
+            containerVolume.setOrientation(LinearLayout.HORIZONTAL);
+
+                TextView lblVolumeLength = new TextView(mContext);
+                lblVolumeLength.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                lblVolumeLength.setText("L");
+                containerVolume.addView(lblVolumeLength);
+
+                mEtVolumeLength = new EditText(mContext);
+                mEtVolumeLength.setLayoutParams(new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+                mEtVolumeLength.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                mEtVolumeLength.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                mEtVolumeLength.setOnFocusChangeListener(new OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            mBarcodeRequestListener.onBeforeRequestBarcode(mEtVolumeLength);
+                            mBarcodeRequestView = mEtVolumeLength;
+                        } else {
+                            mBarcodeRequestView = null;
+                            mBarcodeRequestListener.onAfterRequestBarcode(mEtVolumeLength);
+                        }
+                    }
+                });
+                containerVolume.addView(mEtVolumeLength);
+
+                TextView lblVolumeWidth = new TextView(mContext);
+                lblVolumeWidth.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                lblVolumeWidth.setText("W");
+                lblVolumeWidth.setPadding((int) context.getResources().getDimension(R.dimen.layout_form_field_padding_top), 0, 0, 0);
+                containerVolume.addView(lblVolumeWidth);
+
+                mEtVolumeWidth = new EditText(mContext);
+                mEtVolumeWidth.setLayoutParams(new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+                mEtVolumeWidth.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                mEtVolumeWidth.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                mEtVolumeWidth.setOnFocusChangeListener(new OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            mBarcodeRequestListener.onBeforeRequestBarcode(mEtVolumeWidth);
+                            mBarcodeRequestView = mEtVolumeWidth;
+                        } else {
+                            mBarcodeRequestView = null;
+                            mBarcodeRequestListener.onAfterRequestBarcode(mEtVolumeWidth);
+                        }
+                    }
+                });
+                containerVolume.addView(mEtVolumeWidth);
+
+                TextView lblVolumeHeight = new TextView(mContext);
+                lblVolumeHeight.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                lblVolumeHeight.setText("H");
+                lblVolumeHeight.setPadding((int) context.getResources().getDimension(R.dimen.layout_form_field_padding_top), 0, 0, 0);
+                containerVolume.addView(lblVolumeHeight);
+
+                mEtVolumeHeight = new EditText(mContext);
+                mEtVolumeHeight.setLayoutParams(new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+                mEtVolumeHeight.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                mEtVolumeHeight.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                mEtVolumeHeight.setOnFocusChangeListener(new OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            mBarcodeRequestListener.onBeforeRequestBarcode(mEtVolumeHeight);
+                            mBarcodeRequestView = mEtVolumeHeight;
+                        } else {
+                            mBarcodeRequestView = null;
+                            mBarcodeRequestListener.onAfterRequestBarcode(mEtVolumeHeight);
+                        }
+                    }
+                });
+                containerVolume.addView(mEtVolumeHeight);
+
+            containerVolume.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            scrollViewContainer.addView(containerVolume);
+
             TextView lblCondition = new TextView(mContext);
             lblCondition.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             lblCondition.setText("Condition");
@@ -308,6 +422,21 @@ public class EnrollView extends ScrollView {
         }
         data.setCartonNo(mEtCartonNo.getText().toString());
         data.setLotNo(mEtLotNo.getText().toString());
+        try {
+            data.setVolumeLength(Double.parseDouble(mEtVolumeLength.getText().toString()));
+        } catch (Exception ex) {
+            data.setVolumeLength(0);
+        }
+        try {
+            data.setVolumeWidth(Double.parseDouble(mEtVolumeWidth.getText().toString()));
+        } catch (Exception ex) {
+            data.setVolumeWidth(0);
+        }
+        try {
+            data.setVolumeHeight(Double.parseDouble(mEtVolumeHeight.getText().toString()));
+        } catch (Exception ex) {
+            data.setVolumeHeight(0);
+        }
         data.setCondition(mSpCondition.getSelectedItem().toString());
         data.setPackedDate(mDpPackedDate.getCalendar());
         data.setExpiredDate(mDpExpiredDate.getCalendar());
@@ -323,6 +452,10 @@ public class EnrollView extends ScrollView {
         mDpPackedDate.setDate((Calendar) null);
         mDpExpiredDate.setDate((Calendar) null);
         mLblProductName.setText("");
+        mLblProductVolume.setText("");
+        mEtVolumeLength.setText("");
+        mEtVolumeWidth.setText("");
+        mEtVolumeHeight.setText("");
     }
 
     public void setFocusAtFirst() {
@@ -386,6 +519,7 @@ public class EnrollView extends ScrollView {
     private void productProperties(String productCode) {
         if (productCode == null || productCode.equals("")) {
             mLblProductName.setText("");
+            mLblProductVolume.setText("");
             return;
         }
 
@@ -409,13 +543,41 @@ public class EnrollView extends ScrollView {
                             mLblProductName.setText(value.getString("name"));
                         else
                             mLblProductName.setText("");
+
+                        double volumeLength = 0;
+                        double volumeWidth = 0;
+                        double volumeHeight = 0;
+                        if (!value.isNull("volume_length"))
+                            volumeLength = value.getDouble("volume_length");
+                        if (!value.isNull("volume_width"))
+                            volumeWidth = value.getDouble("volume_width");
+                        if (!value.isNull("volume_height"))
+                            volumeHeight = value.getDouble("volume_height");
+                        mEtVolumeLength.setText(String.valueOf(volumeLength));
+                        mEtVolumeWidth.setText(String.valueOf(volumeWidth));
+                        mEtVolumeHeight.setText(String.valueOf(volumeHeight));
+
+                        String productVolume = "L : " + String.valueOf(volumeLength) + "m, W : " + String.valueOf(volumeWidth) + "m, H : " + String.valueOf(volumeHeight) + "m";
+                        mLblProductVolume.setText(productVolume);
                     } else {
                         mLblProductName.setText("");
+                        mLblProductVolume.setText("");
+                        mEtVolumeLength.setText("");
+                        mEtVolumeWidth.setText("");
+                        mEtVolumeHeight.setText("");
                     }
                 } catch (JSONException e) {
                     mLblProductName.setText("");
+                    mLblProductVolume.setText("");
+                    mEtVolumeLength.setText("");
+                    mEtVolumeWidth.setText("");
+                    mEtVolumeHeight.setText("");
                 } catch (Exception e) {
                     mLblProductName.setText("");
+                    mLblProductVolume.setText("");
+                    mEtVolumeLength.setText("");
+                    mEtVolumeWidth.setText("");
+                    mEtVolumeHeight.setText("");
                 }
             }
         });

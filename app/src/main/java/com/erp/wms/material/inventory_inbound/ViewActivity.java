@@ -220,6 +220,13 @@ public class ViewActivity extends SherlockActivity implements ActionBar.TabListe
                         if (!record.isNull("quantity_box"))
                             recordData.setQuantityBox(record.getInt("quantity_box"));
 
+                        if (!record.isNull("volume_length"))
+                            recordData.setVolumeLength(record.getDouble("volume_length"));
+                        if (!record.isNull("volume_width"))
+                            recordData.setVolumeWidth(record.getDouble("volume_width"));
+                        if (!record.isNull("volume_height"))
+                            recordData.setVolumeHeight(record.getDouble("volume_height"));
+
                         records.add(new ViewDetailView(mContext, recordData));
                     }
 
