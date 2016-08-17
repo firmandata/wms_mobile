@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+    <string name="app_name">WMS</string>
+    <string name="api_url">http://10.0.2.2/erp_dpp/index.php/api</string>
+    -->
+    <!--
+    <string name="app_name">WMS</string>
+    <string name="api_url">http://10.0.2.2:8081/index.php/api</string>
+
+    <string name="app_name">WMS</string>
+    <string name="api_url">http://120.29.152.114:8000/wms/index.php/api</string>
+    <string name="app_name">WMS</string>
+    <string name="api_url">http://wms.duaputraperkasa.com:8000/wms/index.php/api</string>
+    <string name="app_name">WMS Loc</string>
+    <string name="api_url">http://192.168.1.101:8000/wms/index.php/api</string>
+
+    <string name="app_name">WMS Dev</string>
+    <string name="api_url">http://120.29.152.114:8000/dev/index.php/api</string>
+    <string name="app_name">WMS Dev</string>
+    <string name="api_url">http://dev.duaputraperkasa.com:8000/dev/index.php/api</string>
+    <string name="app_name">WMS Loc Dev</string>
+    <string name="api_url">http://192.168.1.101:8000/dev/index.php/api</string>
+
+    <string name="app_name">WMS</string>
+    <string name="api_url">http://wms.max-logistics.co.id:8080/wms/index.php/api</string>
+    <string name="app_name">WMS</string>
+    <string name="api_url">http://43.252.238.98:8080/wms/index.php/api</string>
+    <string name="app_name">WMS Loc</string>
+    <string name="api_url">http://192.168.1.126:8080/wms/index.php/api</string>
+
+    <string name="app_name">WMS Dev</string>
+    <string name="api_url">http://wms.max-logistics.co.id:8080/dev/index.php/api</string>
+    -->
+    <string name="app_name">WMS Dev</string>
+    <string name="api_url">http://43.252.238.98:8080/dev/index.php/api</string>
+    <!--
+    <string name="app_name">WMS Loc Dev</string>
+    <string name="api_url">http://192.168.1.126:8080/dev/index.php/api</string>
+    -->
+
+</resources>
